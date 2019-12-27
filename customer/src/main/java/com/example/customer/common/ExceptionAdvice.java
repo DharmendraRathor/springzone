@@ -10,11 +10,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionAdvice {
 
-	@ExceptionHandler(value = CustomerNotFoundException.class)
-	public ResponseEntity<CustomErrorResponse> handleGenericException(Exception e) {
-		CustomErrorResponse error = new CustomErrorResponse("GENERAL_ERROR", e.getMessage());
+	@ExceptionHandler(value = NotFoundException.class)
+	public ResponseEntity<CustomErrorResponse> handleGenericNotFoundException(NotFoundException e) {
+		CustomErrorResponse error = new CustomErrorResponse("NOT_FOUND_ERROR", e.getMessage());
 		error.setTimestamp(LocalDateTime.now());
 		error.setStatus((HttpStatus.NOT_FOUND.value()));
 		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-	}
+	}	
+
 }
+//@ExceptionHandler(value = CustomerNotFoundException.class)
+//@ResponseBody
+//public ResponseEntity<?> handleGenericNotFoundException(CustomerNotFoundException e) {
+//	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//}
